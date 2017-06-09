@@ -1,7 +1,6 @@
 /*
-    Document   : Index.java
-    Author     : gheorgheaurelpacurar
-    Copyright  : gheorgheaurelpacurar
+ * Servlet Index.java serves index.jsp
+ * This servlet computes authentication and autorisation process
  */
 package servlets;
 
@@ -44,29 +43,29 @@ public class Index extends HttpServlet {
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         // read username and password sent from the JSP
-        String u = request.getParameter("LoginPage_Username");
-        String p = request.getParameter("LoginPage_Password");
+        String u = request.getParameter("authenticationpage_username");
+        String p = request.getParameter("authenticationpage_password");
         // Try to create a connection and test if the user exists
         // set connection paramters to the DB
         ResultSet resultSet = null;
         Statement statement = null;
         Connection connection = null;
-        String user = "test";
-        String password = "test";
-        String url = "jdbc:derby://localhost:1527/eBooksDatabase;create=true;";
+        String user = "APP";
+        String password = "APP";
+        String url = "jdbc:derby://localhost:1527/ebooksstore;create=true;";
         String driver = "org.apache.derby.jdbc.ClientDriver";
         try {
             Class driverClass = Class.forName(driver);
             connection = DriverManager.getConnection(url, user, password);
             statement = connection.createStatement();
-            String query = "SELECT USERNAME, PASSWORD, ID_ROLE FROM USERS WHERE USERNAME = '" + u + "' AND PASSWORD = '" + p + "'";
+            String query = "SELECT USERNAME, PASSWORD, ROLE FROM EBOOKSSTORE_USERS WHERE USERNAME = '" + u + "' AND PASSWORD = '" + p + "'";
             resultSet = statement.executeQuery(query);
             boolean resultSetHasRows = resultSet.next();
             if (resultSetHasRows) {
                 // save as actualUser variable the username
                 request.getSession().setAttribute("actualUser", u);
                 // save as actualUserRole its role
-                request.getSession().setAttribute("actualUserRole", resultSet.getString("ID_ROLE"));
+                request.getSession().setAttribute("actualUserRole", resultSet.getString("ROLE"));
                 // create a variable to keep the authenticated user
                 request.getSession().setAttribute("validUser", true);
                 // delegate to JSP
