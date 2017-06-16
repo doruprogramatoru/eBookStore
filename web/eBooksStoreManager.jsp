@@ -1,6 +1,6 @@
 <%-- 
-    Document   : eBooksStoreAdminPaperQualityPage.jsp
-    Created on : Jun 5, 2017, 10:43:42 PM
+    Document   : eBooksStoreManager
+    Created on : Jun 16, 2017, 9:05:15 PM
     Author     : Doru
 --%>
 
@@ -12,7 +12,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Electronic Books Store Manage Paper Quality Page</title>
+        <title>Electronic Books Store Manager</title>
         <link rel="stylesheet" type="text/css" href="./css/eBooksStoreCSS.css">
     </head>
     <body>
@@ -22,7 +22,7 @@
                 <%-- include menu --%>
                 <%@ include file="./utils/eBooksStoreMenu.jsp" %>
                 <%-- Master view --%>
-                <form action="${pageContext.request.contextPath}/eBooksStoreAdminPaperQualityServlet" method="POST">
+                <form action="${pageContext.request.contextPath}/eBooksStoreManagerServlet" method="POST">
                     <sql:setDataSource 
                         var="snapshot" 
                         driver="org.apache.derby.jdbc.ClientDriver"
@@ -30,17 +30,20 @@
                         user="APP"  
                         password="APP"/>
                     <sql:query dataSource="${snapshot}" var="result">
-                        SELECT DESCRIPTION from EBOOKSSTORE_VALUES_QUALITIES ORDER BY DESCRIPTION ASC 
+                        SELECT ISBN, TITLE from EBOOKS ORDER BY ISBN ASC
                     </sql:query>
+
                     <table border="1" width="100%">
                         <tr>
-                            <td class="thc"> select </td>    
-                            <td class="thc">DESCRIPTION</td>
+                            <td class="thc"> select </td>
+                            <td class="thc">ISBN</td>
+                            <td class="thc">TITLE</td>
                         </tr>
                         <c:forEach var="row" varStatus="loop" items="${result.rows}">
                             <tr>
-                                <td><input type="checkbox" name="admin_quality_values_checkbox" value="${row.description}"></td>
-                                <td><c:out value="${row.description}"/></td>
+                                <td><input type="checkbox" name="admin_isbn_values_checkbox" value="${row.ISBN}"></td>
+                                <td><c:out value="${row.ISBN}"/></td>
+                                <td><c:out value="${row.TITLE}"/></td>
                             </tr>
                         </c:forEach>
                     </table>
@@ -48,17 +51,15 @@
                     <table class="tablecenterdwithborder">
                         <tr><td>
                                 <table>
-                                    <tr>
-                                        <td> DESCRIPTION </td>
-                                        <td> <input type="text" name="admin_quality_values"></input></td>
-                                    </tr>
+
+                                    <tr><td> ISBN </td><td> <input type="text" name="admin_isbn_values"></input></td></tr>
                                 </table>
                                 <%-- buttons --%>
                                 <table>
-                                    <tr><td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_quality_values_insert" value="Insert"></td> 
-                                        <td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_quality_values_update" value="Update"></td>
-                                        <td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_quality_values_delete" value="Delete"></td> 
-                                        <td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_quality_values_cancel" value="Cancel"></td>
+                                    <tr><td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_isbn_values_insert" value="Insert"></td> 
+                                        <td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_isbn_values_update" value="Update"></td>
+                                        <td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_isbn_values_delete" value="Delete"></td> 
+                                        <td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_isbn_values_cancel" value="Cancel"></td>
                                     </tr>     
                                 </table>
                             </td></tr>
