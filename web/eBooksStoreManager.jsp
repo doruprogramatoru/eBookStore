@@ -1,7 +1,5 @@
 <%-- 
-    Document   : eBooksStoreManager
-    Created on : Jun 16, 2017, 9:05:15 PM
-    Author     : Doru
+   eBooksStoreManager
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,14 +10,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Electronic Books Store Manager</title>
+        <title>Electronic Books Store Manage</title>
         <link rel="stylesheet" type="text/css" href="./css/eBooksStoreCSS.css">
     </head>
     <body>
         <%-- test if actual user is authenticated and authorized --%>
         <c:choose>
             <c:when test="${validUser == true}">   
-                <%-- include menu --%>
+                <!-- include menu -->
                 <%@ include file="./utils/eBooksStoreMenu.jsp" %>
                 <%-- Master view --%>
                 <form action="${pageContext.request.contextPath}/eBooksStoreManagerServlet" method="POST">
@@ -30,37 +28,66 @@
                         user="APP"  
                         password="APP"/>
                     <sql:query dataSource="${snapshot}" var="result">
-                        SELECT ISBN, TITLE from EBOOKS ORDER BY ISBN ASC
+                        SELECT EBOOKS.ISBN, EBOOKS.TITLE, EBOOKS.CATEGORY, AUTHORS.NAME FROM EBOOKS, AUTHORS WHERE EBOOKS.NAME = AUTHORS.NAME ORDER BY ISBN ASC
                     </sql:query>
-
                     <table border="1" width="100%">
                         <tr>
-                            <td class="thc"> select </td>
-                            <td class="thc">ISBN</td>
-                            <td class="thc">TITLE</td>
+                            <td width="4%" class="thc"> select </td>   
+                            <td width="24%" class="thc"> ISBN </td> 
+                            <td width="24%" class="thc">TITLE</td>
+                            <td width="24%" class="thc">CATEGORY</td>
+                            <td width="24%" class="thc">NAME</td>
+                    </table>    
+                    <table border="1" width="100%">    
                         </tr>
                         <c:forEach var="row" varStatus="loop" items="${result.rows}">
                             <tr>
-                                <td><input type="checkbox" name="admin_isbn_values_checkbox" value="${row.ISBN}"></td>
-                                <td><c:out value="${row.ISBN}"/></td>
-                                <td><c:out value="${row.TITLE}"/></td>
+                                <td width="4%" class="tdc"><input type="checkbox" name="admin_users_checkbox" value="${row.isbn}"></td>
+                                <td width="24%" class="tdc"><c:out value="${row.isbn}"/></td>
+                                <td width="24%" class="tdc"><c:out value="${row.title}"/></td>
+                                <td width="24%" class="tdc"><c:out value="${row.category}"/></td>
+                                <td width="24%" class="tdc"><c:out value="${row.name}"/></td>
                             </tr>
                         </c:forEach>
                     </table>
                     <%-- Details --%>
+                    <sql:setDataSource 
+                        var="snapshotname" 
+                        driver="org.apache.derby.jdbc.ClientDriver"
+                        url="jdbc:derby://localhost:1527/ebooksstore;create=true;"
+                        user="APP"  
+                        password="APP"/>
+                    <sql:query dataSource="${snapshot}" var="result">
+                        SELECT * from EBOOKS 
+                    </sql:query>
                     <table class="tablecenterdwithborder">
-                        <tr><td>
+                        <tr><td>    
                                 <table>
-
-                                    <tr><td> ISBN </td><td> <input type="text" name="admin_isbn_values"></input></td></tr>
+                                    <tr>
+                                        <td> ISBN: </td>
+                                        <td> <input type="text" name="admin_isbn"></input></td>
+                                    </tr>
+                                    <tr>
+                                        <td> TITLE: </td>
+                                        <td> <input type="text" name="admin_title"></input></td>
+                                    </tr>
+                                    <tr>
+                                        <td> CATEGORY: </td>
+                                        <td> <input type="text" name="admin_category"></input></td>
+                                    </tr>
+                                    <tr>
+                                        <td> NAME: </td>
+                                        <td> <input type="text" name="admin_user_name"></input></td>
+                                    </tr>     
                                 </table>
                                 <%-- buttons --%>
                                 <table>
-                                    <tr><td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_isbn_values_insert" value="Insert"></td> 
-                                        <td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_isbn_values_update" value="Update"></td>
-                                        <td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_isbn_values_delete" value="Delete"></td> 
-                                        <td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_isbn_values_cancel" value="Cancel"></td>
-                                    </tr>     
+
+                                    <tr><td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_users_insert" value="Insert"></td> 
+                                        <td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_users_update" value="Update"></td>
+                                        <td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_users_delete" value="Delete"></td> 
+                                        <td class="tdc"><input type="submit" class="ebooksstorebutton" name="admin_users_cancel" value="Cancel"></td>
+                                    </tr>  
                                 </table>
                             </td></tr>
                     </table>    
@@ -69,6 +96,6 @@
             <c:otherwise>
                 <c:redirect url="./index.jsp"></c:redirect>
             </c:otherwise>
-        </c:choose>     
-    </body>
+        </c:choose>
+    </body>    
 </html>

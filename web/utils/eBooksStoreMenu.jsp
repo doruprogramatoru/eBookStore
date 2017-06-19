@@ -21,9 +21,11 @@
                                 <c:when test="${actualUserRole == 'admin'}">
                                     <li><a href="./eBooksStoreAdminUsersPage.jsp">Users</a></li>
                                     <li><a href="./eBooksStoreAdminUserRolesPage.jsp">User roles</a></li>
-                                   <li><a href="./eBooksStoreManager.jsp">Manage eBooks</a></li>
-                                    </c:when>
-                                </c:choose>                              
+                                    <li><a href="./eBooksStoreAuthorsPage.jsp">Manage Authors</a></li>
+                                    <li><a href="./eBooksStoreManager.jsp">Manage Books</a></li>
+
+                                </c:when>
+                            </c:choose>                              
                         </ul>
                     </li>
                 </c:when>
@@ -32,7 +34,7 @@
                 <c:when test="${actualUserRole == 'user'|| actualUserRole == 'admin'}">
                     <li><a href="#">Orders</a>
                         <ul>
-                            <li><a href="./eBooksStoreOrderBookPage.jsp">Order Books</a></li>
+                            <%-- <li><a href="./eBooksStoreOrderBookPage.jsp">Orders</a></li> --%>
                             <%-- <li><a href="./eBooksStoreReportsPage.jsp">Orders</a></li> --%>
                             <li><a href="./eBooksStoreMainPage.jsp">Orders</a></li>
                         </ul>
